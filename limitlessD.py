@@ -19,7 +19,12 @@ import json
 import time
 import subprocess
 import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir)) + "/../lib")
+from config import config
 
+broker = str(config.get("mqtt", "host"))
+port = int(config.get("mqtt", "port"))
 def on_connect(rc):
         print "LimitlessD Connected to MQTT"
 
@@ -42,7 +47,7 @@ def main():
 	mqttc.on_message = on_message
 	mqttc.on_connect = on_connect
 
-	mqttc.connect("127.0.0.1", 1883, 60, False)
+	mqttc.connect(broker, port, 60, False)
 
 	mqttc.subscribe("limitless", 0)
 
