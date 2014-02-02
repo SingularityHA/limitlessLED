@@ -1,6 +1,8 @@
-status.json
-config.php
+lights.json
+id.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+
+
