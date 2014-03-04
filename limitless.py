@@ -108,7 +108,7 @@ def send_command(hub, light, command):
 
 
 """ Set brightness for both kinds of lights """
-def set_brightness(hub, light, type, current_brightness, requested_brightness):
+def set_brightness(hub, light, light_type, current_brightness, requested_brightness):
     logger.debug("Changing brightness from " + str(current_brightness) + " to " + str(requested_brightness))
     if current_brightness == requested_brightness:
         logger.info("Already at requested brightness!")
@@ -129,7 +129,7 @@ def set_brightness(hub, light, type, current_brightness, requested_brightness):
     send_command(hub, light, commands[type + "_" + group + "_on"])
     time.sleep(0.1)
 
-    if type == "white":
+    if light_type == "white":
         logger.debug("white light brightness")
         """ do complicated stuff to set the brightness """
         logger.debug(
@@ -156,7 +156,7 @@ def set_brightness(hub, light, type, current_brightness, requested_brightness):
                 send_command(hub, light, commands["white_brightnessup"])
                 time.sleep(0.1)
 
-    if type == "rgbw":
+    if light_type == "rgbw":
         logger.debug("Sending brightness")
         brightness = brightness_map[requested_brightness]
         command = commands["rgbw_brightness"]
@@ -179,7 +179,7 @@ def on_message(msg):
 
     hub = lights[light]['hub']
     group = str(lights[light]['group'])
-    type = str(lights[light]['type'])
+    light_type = str(lights[light]['type'])
     try:
         attributes = state.get(light).attributes
         current_status = state.get(light).state
@@ -187,11 +187,11 @@ def on_message(msg):
         attributes = {}
         current_status = ""
         attributes['brightness'] = 0
-        if type == "white":
+        if light_type == "white":
             for x in range(0, 10):
                 logger.debug("Step down")
                 send_command(hub, light, commands["white_brightnessdown"])
-        if type == "rgbw":
+        if light_type == "rgbw":
             brightness = brightness_map[0]
             command = commands["rgbw_brightness"]
             command[1] = brightness
@@ -207,8 +207,8 @@ def on_message(msg):
 
     # On or full
     if func == "on" or func == "full":
-        print type + "_" + group + "_" + func
-        command = commands[type + "_" + group + "_" + func]
+        print light_type + "_" + group + "_" + func
+        command = commands[light_type + "_" + group + "_" + func]
         if func == "on":
             state_data = "on"
         if func == "full":
@@ -217,17 +217,17 @@ def on_message(msg):
 
     # Off
     if func == "off":
-        send_command(hub, light, commands[type + "_" + group + "_on"])
+        send_command(hub, light, commands[light_type + "_" + group + "_on"])
         time.sleep(0.2)
-        set_brightness(hub, light, type, attributes['brightness'], "0")
+        set_brightness(hub, light, light_type, attributes['brightness'], "0")
         time.sleep(0.2)
-        command = commands[type + "_" + group + "_off"]
+        command = commands[light_type + "_" + group + "_off"]
         state_data = "off"
         attributes['brightness'] = 0
 
     # Brightness
     if func == "brightness":
-        set_brightness(hub, light, type, attributes['brightness'], data)
+        set_brightness(hub, light, light_type, attributes['brightness'], data)
         attributes['brightness'] = data
         state_data = "on"
 
