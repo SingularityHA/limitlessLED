@@ -246,7 +246,7 @@ def main():
 
 	mqttc.connect(broker, port, 60, False)
 
-	mqttc.subscribe("limitless", 0)
+	mqttc.subscribe("limitlessLED", 0)
 
 	while mqttc.loop() == 0:
         	pass
