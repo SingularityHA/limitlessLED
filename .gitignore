@@ -5,4 +5,6 @@ id.txt
 __pycache__/
 *.py[cod]
 
+.idea/
+
 
