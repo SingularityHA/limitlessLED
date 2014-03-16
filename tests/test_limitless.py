@@ -66,6 +66,6 @@ while mqttc.loop() == 0:
 	time.sleep(1)
 	mqttc.publish("limitlessLED", json.dumps(["DeskLight", "brightness", "3"]))
 	time.sleep(1)
-	mqttc.publish("limitlessLED", json.dumps(["DeskLight", "full"]))
+	mqttc.publish("limitlessLED", json.dumps(["DeskLight", "off"]))
 	break
 	pass 

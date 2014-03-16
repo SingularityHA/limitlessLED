@@ -127,7 +127,7 @@ def set_brightness(hub, light, light_type, current_brightness, requested_brightn
     type = str(lights[light]['type'])
     logger.debug("Sending on command")
     send_command(hub, light, commands[type + "_" + group + "_on"])
-    time.sleep(0.1)
+    time.sleep(0.2)
 
     if light_type == "white":
         logger.debug("white light brightness")
@@ -145,7 +145,7 @@ def set_brightness(hub, light, light_type, current_brightness, requested_brightn
             for x in range(0, int(steps)):
                 logger.debug("Step down")
                 send_command(hub, light, commands["white_brightnessdown"])
-                time.sleep(0.1)
+                time.sleep(0.2)
             steps = 0
 
         if steps > 0:
@@ -154,7 +154,7 @@ def set_brightness(hub, light, light_type, current_brightness, requested_brightn
             for x in range(0, int(steps)):
                 logger.debug("Step up")
                 send_command(hub, light, commands["white_brightnessup"])
-                time.sleep(0.1)
+                time.sleep(0.2)
 
     if light_type == "rgbw":
         logger.debug("Sending brightness")
