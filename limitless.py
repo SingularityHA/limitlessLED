@@ -97,8 +97,6 @@ brightness_map = {
 }
 
 """ Send required command to light hub """
-
-
 def send_command(hub, light, command):
     logger.debug("Sending command " + str(hex(command[1])))
     hubconfig = config.get("limitlessLED", hub).split(":")
@@ -162,10 +160,6 @@ def set_brightness(hub, light, light_type, current_brightness, requested_brightn
         command = commands["rgbw_brightness"]
         command[1] = brightness
         send_command(hub, light, command)
-
-
-def on_connect(rc):
-    print "LimitlessD Connected to MQTT"
 
 
 def on_message(msg):
@@ -244,7 +238,6 @@ def main():
     mqttc = mosquitto.Mosquitto("limitlessD")
 
     mqttc.on_message = on_message
-    mqttc.on_connect = on_connect
 
     mqttc.connect(broker, port, 60, False)
 
