@@ -83,17 +83,17 @@ colour_map = dict(violet=0x00,
                   lavender=0xF0)
 
 brightness_map = {
-    '0': 0x02,
-    '1': 0x05,
-    '2': 0x08,
-    '3': 0x0B,
-    '4': 0x0E,
-    '5': 0x11,
-    '6': 0x14,
-    '7': 0x17,
-    '8': 0x19,
-    '9': 0x1A,
-    '10': 0x1B
+    0: 0x02,
+    1: 0x05,
+    2: 0x08,
+    3: 0x0B,
+    4: 0x0E,
+    5: 0x11,
+    6: 0x14,
+    7: 0x17,
+    8: 0x19,
+    9: 0x1A,
+    10: 0x1B
 }
 
 """ Send required command to light hub """
@@ -156,13 +156,13 @@ def set_brightness(hub, light, light_type, current_brightness, requested_brightn
 
     if light_type == "rgbw":
         logger.debug("Sending brightness")
-        brightness = brightness_map[requested_brightness]
+        brightness = brightness_map[int(requested_brightness)]
         command = commands["rgbw_brightness"]
         command[1] = brightness
         send_command(hub, light, command)
 
 
-def on_message(msg):
+def on_message(me, myself, msg):
     inbound = json.loads(msg.payload)
     light = inbound[0]
     func = inbound[1]
