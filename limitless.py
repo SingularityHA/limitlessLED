@@ -98,8 +98,8 @@ brightness_map = {
 
 """ Send required command to light hub """
 def send_command(hub, light, command):
-    logger.debug("Sending command " + str(hex(command[1])))
     hubconfig = config.get("limitlessLED", hub).split(":")
+    logger.debug("Sending command " + str(hex(command[1]) + "to " + str(hubconfig) ))
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.sendto(command, (hubconfig[0], int(hubconfig[1])))
